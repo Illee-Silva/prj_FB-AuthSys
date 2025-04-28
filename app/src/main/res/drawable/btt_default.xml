@@ -1,4 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
-  
-</selector>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <solid android:color="@color/btt_bkg"/>
+
+    <stroke
+        android:width="5dp"
+        android:color="@color/btt_strokeColor"
+        />
+
+    <corners android:radius="100dp"/>
+
+</shape>
