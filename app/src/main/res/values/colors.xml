@@ -2,9 +2,9 @@
 <resources>
 
 <!--Botões-->
-    <color name="btt_bkg">#C8C8C8</color>
-    <color name="btt_strokeColor">#6F6F6F</color>
-
+    <color name="btt_bkg">#E0E0E0</color>
+    <color name="btt_strokeColor">#2C2C2C</color>
+    <color name="btt_textColor">#181818</color>
 
 <!--Outros-->
     <color name="page_bkg">#FF3C3C3C</color>

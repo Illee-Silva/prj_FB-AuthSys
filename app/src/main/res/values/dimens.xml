@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="ti_width">219dp</dimen>
+    <dimen name="ti_height">48dp</dimen>
+
+</resources>
