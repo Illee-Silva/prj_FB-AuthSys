@@ -4,4 +4,6 @@
     <dimen name="ti_width">219dp</dimen>
     <dimen name="ti_height">48dp</dimen>
 
+    <dimen name="tv_actv_tittle">45sp</dimen>
+
 </resources>

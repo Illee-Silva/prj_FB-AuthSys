@@ -7,9 +7,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 
-import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.example.prj_connectauth.databinding.ActivityRegisterBinding
+import com.google.android.material.snackbar.Snackbar
 
 class RegisterActivity : AppCompatActivity() {
 
@@ -24,7 +24,7 @@ class RegisterActivity : AppCompatActivity() {
         auth = FirebaseAuth.getInstance()
 
         enableEdgeToEdge()
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
@@ -35,17 +35,17 @@ class RegisterActivity : AppCompatActivity() {
             val password = binding.txtPassword2.text.toString().trim()
 
             if (email.isEmpty() || password.isEmpty()){
-                Toast.makeText(this, "Preencha todos os Campos!", Toast.LENGTH_SHORT).show()
+                Snackbar.make(binding.root, "Preencha Todos os Campos!", Snackbar.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
             auth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this){ task ->
                     if(task.isSuccessful){
-                        Toast.makeText(this, "Registrto bem sucedido!", Toast.LENGTH_SHORT).show()
+                        Snackbar.make(binding.root, "Registrto bem sucedido!", Snackbar.LENGTH_SHORT).show()
                     }
                     else {
-                        Toast.makeText(this, "ERRO: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
+                        Snackbar.make(binding.root, "ERRO: ${task.exception?.message}", Snackbar.LENGTH_SHORT).show()
                     }
                 }
 

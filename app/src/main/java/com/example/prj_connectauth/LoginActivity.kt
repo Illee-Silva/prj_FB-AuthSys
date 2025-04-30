@@ -6,10 +6,10 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import android.widget.Toast
 
 import com.google.firebase.auth.FirebaseAuth
 import com.example.prj_connectauth.databinding.ActivityLoginBinding
+import com.google.android.material.snackbar.Snackbar
 
 
 class LoginActivity : AppCompatActivity() {
@@ -35,19 +35,19 @@ class LoginActivity : AppCompatActivity() {
             val password = binding.txtPassword.text.toString().trim()
 
             if (email.isEmpty() || password.isEmpty()){
-                Toast.makeText(this, "Preencha todos os Campos!", Toast.LENGTH_SHORT).show()
+                Snackbar.make(binding.root, "Preencha Todos os Campos!", Snackbar.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
             auth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this){ task ->
                     if (task.isSuccessful){
-                        Toast.makeText(this, "Login bem-sucedido!", Toast.LENGTH_SHORT).show()
+                        Snackbar.make(binding.root, "Login Bem Sucedido!", Snackbar.LENGTH_SHORT).show()
                         startActivity(Intent(this, MainActivity::class.java))
                         finish()
                     }
                     else{
-                        Toast.makeText(this, "Erro: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
+                        Snackbar.make(binding.root, "Erro: ${task.exception?.message}", Snackbar.LENGTH_LONG).show()
                     }
                 }
 
@@ -62,7 +62,7 @@ class LoginActivity : AppCompatActivity() {
         }
 
         enableEdgeToEdge()
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
