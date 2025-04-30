@@ -1,6 +1,7 @@
 package com.example.prj_connectauth
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.util.Patterns
@@ -8,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 
@@ -17,6 +19,9 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException
+import androidx.core.graphics.toColorInt
+import com.example.prj_connectauth.utils.GlobalSnackbar.invokeSnackbar
+import com.google.firebase.FirebaseNetworkException
 
 class RegisterActivity : AppCompatActivity() {
 
@@ -38,38 +43,37 @@ class RegisterActivity : AppCompatActivity() {
         }
 
 
-        binding.bttLogin.setOnClickListener{
+        binding.regBttRegister.setOnClickListener{
 
             it.isEnabled = false
 
-            binding.progressBar.visibility = View.VISIBLE
+            binding.regPbDefault.visibility = View.VISIBLE
 
-            val email = binding.txtEmail2.text.toString().trim()
-            val password = binding.txtPassword2.text.toString().trim()
+            val email = binding.regEtxtEmail.text.toString().trim()
+            val password = binding.regEtxtPassword.text.toString().trim()
 
             if (email.isEmpty() || password.isEmpty()){
                 it.isEnabled = true
-                Snackbar.make(binding.root, "Preencha Todos os Campos!", Snackbar.LENGTH_SHORT).show()
-                binding.progressBar.visibility = View.GONE
+                invokeSnackbar(binding.root, "Preencha Todos os Campos!",)
+                binding.regPbDefault.visibility = View.GONE
                 return@setOnClickListener
             }
 
             if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-                Snackbar.make(binding.root, "E-mail inválido!", Snackbar.LENGTH_SHORT).show()
+                invokeSnackbar(binding.root, "E-mail inválido!")
                 it.isEnabled = true
-                binding.progressBar.visibility = View.GONE
+                binding.regPbDefault.visibility = View.GONE
                 return@setOnClickListener
             }
 
             auth.createUserWithEmailAndPassword(email, password)
 
                 .addOnCompleteListener(this){ task ->
-                    binding.progressBar.visibility = View.GONE
+                    binding.regPbDefault.visibility = View.GONE
                     it.isEnabled = true
 
                     if(task.isSuccessful){
-                        Snackbar.make(binding.root, "Registrto bem sucedido!", Snackbar.LENGTH_SHORT).show()
-                        startActivity(Intent(this, LoginActivity::class.java))
+                        invokeSnackbar(binding.root, "Registrto bem sucedido!")
                         finish()
                     }
                     else {
@@ -78,7 +82,7 @@ class RegisterActivity : AppCompatActivity() {
                 }
 
                 .addOnFailureListener { exception ->
-                    binding.progressBar.visibility = View.GONE
+                    binding.regPbDefault.visibility = View.GONE
                     it.isEnabled = true
 
                     handleSignUpError(exception)
@@ -94,22 +98,25 @@ class RegisterActivity : AppCompatActivity() {
         when (exception) {
             is FirebaseAuthUserCollisionException -> {
                 // E-mail já está cadastrado
-                Snackbar.make(binding.root, "Este e-mail já está em uso!", Snackbar.LENGTH_SHORT).show()
+                invokeSnackbar(binding.root, "Este e-mail já está em uso!")
             }
             is FirebaseAuthWeakPasswordException -> {
                 // Senha fraca
-                Snackbar.make(binding.root, "Senha muito fraca!", Snackbar.LENGTH_SHORT).show()
+                invokeSnackbar(binding.root, "Senha muito fraca!")
             }
             is FirebaseAuthInvalidCredentialsException -> {
                 // Formato de e-mail inválido
-                Snackbar.make(binding.root, "E-mail inválido!", Snackbar.LENGTH_SHORT).show()
+                invokeSnackbar(binding.root, "E-mail inválido!")
+            }
+            is FirebaseNetworkException -> {
+                invokeSnackbar(binding.root, "Erro de conexão, Verifique a Internet!")
             }
             else -> {
                 // Erro genérico (ex: rede)
                 Log.e("REGISTER_ERROR", "Classe da exceção: ${exception?.javaClass?.name}")
                 Log.e("REGISTER_ERROR", "Mensagem: ${exception?.message}")
 
-                Snackbar.make(binding.root, "Erro: ${exception?.message}", Snackbar.LENGTH_SHORT).show()
+                invokeSnackbar(binding.root, "Erro: ${exception?.message}")
             }
         }
     }

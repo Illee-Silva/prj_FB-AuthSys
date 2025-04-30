@@ -8,7 +8,7 @@
     tools:context=".LoginActivity">
 
     <TextView
-        android:id="@+id/main_txtV_title"
+        android:id="@+id/login_tv_tittle"
         android:layout_width="364dp"
         android:layout_height="145dp"
         android:layout_marginTop="54dp"
@@ -25,34 +25,36 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/txt_email"
+        android:id="@+id/login_etxt_email"
+        style="@style/MY_InputETextStyle"
         android:layout_width="@dimen/ti_width"
         android:layout_height="@dimen/ti_height"
         android:layout_marginTop="140dp"
-        android:background="@drawable/input_rounded"
+        android:background="@drawable/etext_rounded"
         android:ems="10"
         android:hint="Email"
         android:inputType="textEmailAddress"
         android:padding="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/main_txtV_title" />
+        app:layout_constraintTop_toBottomOf="@+id/login_tv_tittle" />
 
     <EditText
-        android:id="@+id/txt_password"
+        android:id="@+id/login_etxt_password"
+        style="@style/MY_InputETextStyle"
         android:layout_width="@dimen/ti_width"
         android:layout_height="@dimen/ti_height"
         android:layout_marginTop="56dp"
-        android:background="@drawable/input_rounded"
+        android:background="@drawable/etext_rounded"
         android:ems="10"
         android:hint="Senha"
         android:inputType="textPassword"
         android:padding="10dp"
-        app:layout_constraintStart_toStartOf="@+id/txt_email"
-        app:layout_constraintTop_toBottomOf="@+id/txt_email" />
+        app:layout_constraintStart_toStartOf="@+id/login_etxt_email"
+        app:layout_constraintTop_toBottomOf="@+id/login_etxt_email" />
 
     <android.widget.Button
-        android:id="@+id/btt_login"
+        android:id="@+id/login_btt_login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="60dp"
@@ -61,49 +63,56 @@
         android:fontFamily="sans-serif-black"
         android:text="Login"
         android:textColor="@color/btt_textColor"
-        app:layout_constraintStart_toStartOf="@+id/txt_password"
-        app:layout_constraintTop_toBottomOf="@+id/txt_password" />
+        app:layout_constraintStart_toStartOf="@+id/login_etxt_password"
+        app:layout_constraintTop_toBottomOf="@+id/login_etxt_password" />
 
     <TextView
-        android:id="@+id/btt_forgotPassword"
+        android:id="@+id/login_btt_FgtPassword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
         android:clickable="true"
+        android:paddingVertical="5dp"
         android:text="Esqueci minha senha."
         android:textColor="#00FFF2"
         android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="@+id/txt_password"
-        app:layout_constraintTop_toBottomOf="@+id/txt_password" />
+        app:layout_constraintEnd_toEndOf="@+id/login_etxt_password"
+        app:layout_constraintTop_toBottomOf="@+id/login_etxt_password" />
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/login_tv_footer_l"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="4dp"
-        android:layout_marginBottom="24dp"
+        android:layout_marginBottom="36dp"
+        android:includeFontPadding="false"
+        android:paddingVertical="5dp"
         android:text="Não tem uma conta ?"
+        android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/textView4"
+        app:layout_constraintEnd_toStartOf="@+id/login_btt_register"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/login_btt_register"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
-        android:layout_marginBottom="24dp"
+        android:layout_marginBottom="36dp"
         android:clickable="true"
+        android:includeFontPadding="false"
+        android:paddingVertical="5dp"
         android:text="Cadastre-se"
+        android:textAlignment="center"
         android:textColor="#00FFF2"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textView3" />
+        app:layout_constraintStart_toEndOf="@+id/login_tv_footer_l" />
 
     <TextView
-        android:id="@+id/tv_screen_name"
+        android:id="@+id/login_tv_pagename"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/quantico"
@@ -111,11 +120,10 @@
         android:textAlignment="center"
         android:textAllCaps="true"
         android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/txt_email"
+        app:layout_constraintBottom_toTopOf="@+id/login_etxt_email"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.508"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/main_txtV_title"
-        app:layout_constraintVertical_bias="0.48000002" />
+        app:layout_constraintTop_toBottomOf="@+id/login_tv_tittle" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

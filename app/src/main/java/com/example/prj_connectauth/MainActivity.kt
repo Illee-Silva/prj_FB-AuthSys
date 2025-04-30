@@ -34,9 +34,9 @@ class MainActivity : AppCompatActivity() {
         val currentUser = auth.currentUser
 
         currentUser?.email?.let { email ->
-            binding.textView5.text = "Seu Email Cadastrado: ${email}"
+            binding.mainTvEmailShower.text = "Seu Email Cadastrado: ${email}"
         } ?: run {
-            binding.textView5.text = "Nenhum Usuário Logado"
+            binding.mainTvEmailShower.text = "Nenhum Usuário Logado"
         }
 
     }

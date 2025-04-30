@@ -9,6 +9,7 @@ import androidx.core.view.WindowInsetsCompat
 
 import com.google.firebase.auth.FirebaseAuth
 import com.example.prj_connectauth.databinding.ActivityLoginBinding
+import com.example.prj_connectauth.utils.GlobalSnackbar.invokeSnackbar
 import com.google.android.material.snackbar.Snackbar
 
 
@@ -30,34 +31,34 @@ class LoginActivity : AppCompatActivity() {
             finish()
         }
 
-        binding.bttLogin.setOnClickListener(){
-            val email = binding.txtEmail.text.toString().trim()
-            val password = binding.txtPassword.text.toString().trim()
+        binding.loginBttLogin.setOnClickListener(){
+            val email = binding.loginEtxtEmail.text.toString().trim()
+            val password = binding.loginEtxtPassword.text.toString().trim()
 
             if (email.isEmpty() || password.isEmpty()){
-                Snackbar.make(binding.root, "Preencha Todos os Campos!", Snackbar.LENGTH_SHORT).show()
+                invokeSnackbar(binding.root, "Preencha Todos os Campos!")
                 return@setOnClickListener
             }
 
             auth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this){ task ->
                     if (task.isSuccessful){
-                        Snackbar.make(binding.root, "Login Bem Sucedido!", Snackbar.LENGTH_SHORT).show()
+                        invokeSnackbar(binding.root, "Login Bem Sucedido!")
                         startActivity(Intent(this, MainActivity::class.java))
                         finish()
                     }
                     else{
-                        Snackbar.make(binding.root, "Erro: ${task.exception?.message}", Snackbar.LENGTH_LONG).show()
+                        invokeSnackbar(binding.root, "Erro: ${task.exception?.message}")
                     }
                 }
 
         }
 
-        binding.textView4.setOnClickListener {
+        binding.loginBttRegister.setOnClickListener {
             startActivity(Intent(this, RegisterActivity::class.java))
         }
 
-        binding.bttForgotPassword.setOnClickListener {
+        binding.loginBttFgtPassword.setOnClickListener {
             startActivity(Intent(this, RegisterActivity::class.java))
         }
 
