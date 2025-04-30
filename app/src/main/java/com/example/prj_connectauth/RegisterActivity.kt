@@ -1,5 +1,6 @@
 package com.example.prj_connectauth
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.activity.enableEdgeToEdge
@@ -10,6 +11,9 @@ import androidx.core.view.WindowInsetsCompat
 import com.google.firebase.auth.FirebaseAuth
 import com.example.prj_connectauth.databinding.ActivityRegisterBinding
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
+import com.google.firebase.auth.FirebaseAuthUserCollisionException
+import com.google.firebase.auth.FirebaseAuthWeakPasswordException
 
 class RegisterActivity : AppCompatActivity() {
 
@@ -30,27 +34,68 @@ class RegisterActivity : AppCompatActivity() {
             insets
         }
 
+
         binding.bttLogin.setOnClickListener{
+
+            it.isEnabled = false
+
             val email = binding.txtEmail2.text.toString().trim()
             val password = binding.txtPassword2.text.toString().trim()
 
             if (email.isEmpty() || password.isEmpty()){
+                it.isEnabled = true
                 Snackbar.make(binding.root, "Preencha Todos os Campos!", Snackbar.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
             auth.createUserWithEmailAndPassword(email, password)
+
                 .addOnCompleteListener(this){ task ->
+
+                    it.isEnabled = true
+
                     if(task.isSuccessful){
                         Snackbar.make(binding.root, "Registrto bem sucedido!", Snackbar.LENGTH_SHORT).show()
+                        startActivity(Intent(this, LoginActivity::class.java))
+                        finish()
                     }
                     else {
-                        Snackbar.make(binding.root, "ERRO: ${task.exception?.message}", Snackbar.LENGTH_SHORT).show()
+                        handleSignUpError(task.exception)
                     }
+                }
+
+                .addOnFailureListener { exception ->
+
+                    it.isEnabled = true
+
+                    handleSignUpError(exception)
+
                 }
 
         }
 
+
+    }
+
+    private fun handleSignUpError(exception: Exception?) {
+        when (exception) {
+            is FirebaseAuthUserCollisionException -> {
+                // E-mail já está cadastrado
+                Snackbar.make(binding.root, "Este e-mail já está em uso!", Snackbar.LENGTH_SHORT).show()
+            }
+            is FirebaseAuthWeakPasswordException -> {
+                // Senha fraca
+                Snackbar.make(binding.root, "Senha muito fraca!", Snackbar.LENGTH_SHORT).show()
+            }
+            is FirebaseAuthInvalidCredentialsException -> {
+                // Formato de e-mail inválido
+                Snackbar.make(binding.root, "E-mail inválido!", Snackbar.LENGTH_SHORT).show()
+            }
+            else -> {
+                // Erro genérico (ex: rede)
+                Snackbar.make(binding.root, "Erro: ${exception?.message}", Snackbar.LENGTH_SHORT).show()
+            }
+        }
     }
 
 }
