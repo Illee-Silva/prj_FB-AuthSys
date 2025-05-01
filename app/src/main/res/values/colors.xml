@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="teste">#FF3636</color>
+    <color name="teste">#00FF3636</color>
 
 <!--Botões-->
     <color name="btt_bkg">#E0E0E0</color>

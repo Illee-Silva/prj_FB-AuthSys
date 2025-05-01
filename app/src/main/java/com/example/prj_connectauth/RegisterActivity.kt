@@ -1,25 +1,19 @@
 package com.example.prj_connectauth
 
-import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.util.Patterns
-import android.view.LayoutInflater
 import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 
 import com.google.firebase.auth.FirebaseAuth
 import com.example.prj_connectauth.databinding.ActivityRegisterBinding
-import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException
-import androidx.core.graphics.toColorInt
 import com.example.prj_connectauth.utils.GlobalSnackbar.invokeSnackbar
 import com.google.firebase.FirebaseNetworkException
 
@@ -36,6 +30,7 @@ class RegisterActivity : AppCompatActivity() {
         auth = FirebaseAuth.getInstance()
 
         enableEdgeToEdge()
+
         ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
@@ -54,7 +49,7 @@ class RegisterActivity : AppCompatActivity() {
 
             if (email.isEmpty() || password.isEmpty()){
                 it.isEnabled = true
-                invokeSnackbar(binding.root, "Preencha Todos os Campos!",)
+                invokeSnackbar(binding.root, "Preencha Todos os Campos!")
                 binding.regPbDefault.visibility = View.GONE
                 return@setOnClickListener
             }

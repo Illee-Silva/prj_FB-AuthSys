@@ -1,16 +1,25 @@
 package com.example.prj_connectauth
 
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.view.LayoutInflater
 import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.graphics.toColorInt
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.example.prj_connectauth.databinding.ActivityDialogResetPasswordBinding
 
 import com.google.firebase.auth.FirebaseAuth
 import com.example.prj_connectauth.databinding.ActivityLoginBinding
 import com.example.prj_connectauth.utils.GlobalSnackbar.invokeSnackbar
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.Firebase
+import com.google.firebase.auth.auth
+import androidx.core.graphics.drawable.toDrawable
 
 
 class LoginActivity : AppCompatActivity() {
@@ -31,7 +40,7 @@ class LoginActivity : AppCompatActivity() {
             finish()
         }
 
-        binding.loginBttLogin.setOnClickListener(){
+        binding.loginBttLogin.setOnClickListener{
             val email = binding.loginEtxtEmail.text.toString().trim()
             val password = binding.loginEtxtPassword.text.toString().trim()
 
@@ -59,7 +68,7 @@ class LoginActivity : AppCompatActivity() {
         }
 
         binding.loginBttFgtPassword.setOnClickListener {
-            startActivity(Intent(this, RegisterActivity::class.java))
+            showResetPasswordDialog()
         }
 
         enableEdgeToEdge()
@@ -68,7 +77,54 @@ class LoginActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
     }
+
+    private fun showResetPasswordDialog(){
+
+        val dialogbinding = ActivityDialogResetPasswordBinding.inflate(LayoutInflater.from(this))
+
+        val dialog = AlertDialog.Builder(this)
+            .setView(dialogbinding.root)
+            .setNegativeButton ("Cancelar"){ dialog, _ -> dialog.dismiss() }
+            .create()
+
+
+        dialogbinding.drpBttEnviar.setOnClickListener {
+
+            val email = dialogbinding.drpEtxtEmail.text.toString().trim()
+
+            if (email.isNotEmpty()){
+                sendPasswordRecoverEmail(email)
+                dialog.dismiss()
+            }
+            else{
+                invokeSnackbar(dialogbinding.root, "Preencha o Email!")
+            }
+
+        }
+
+        dialog.show()
+    }
+
+    private fun sendPasswordRecoverEmail(email: String){
+
+        Firebase.auth.sendPasswordResetEmail(email)
+            .addOnCompleteListener { task ->
+                val message = if (task.isSuccessful){
+                    "Email enviado para $email"
+                }
+                else{
+                    "Erro: ${task.exception?.message ?: "Falha desconhecida"}"
+                }
+
+                invokeSnackbar(binding.root, message)
+
+            }
+
+
+    }
+
 
     override fun onDestroy() {
         super.onDestroy()

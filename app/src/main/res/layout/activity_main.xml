@@ -11,13 +11,14 @@
         android:id="@+id/main_tv_pagetittle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
         android:fontFamily="@font/quantico"
         android:text="Pagina Principal"
         android:textSize="@dimen/tv_actv_tittle"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.493"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="37dp" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/main_tv_emailShower"
@@ -25,8 +26,27 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="36dp"
         android:layout_marginTop="152dp"
+        android:fontFamily="@font/quantico"
+        android:includeFontPadding="false"
         android:text="Seu Email: "
+        android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/main_tv_aviso_wip"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="240dp"
+        android:background="@drawable/etext_rounded"
+        android:padding="10dp"
+        android:text="Esta é a Atividade Principal, Porém ainda estamos em desenvolvimento, portanto, não tem nada aqui além de uma simples exibição do Email."
+        android:textAlignment="center"
+        android:textColor="#000000"
+        android:textSize="22sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.576"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
