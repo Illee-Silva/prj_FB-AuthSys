@@ -1,15 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="teste">#00FF3636</color>
+    <color name="teste">#FFFF3636</color>
+
+<!--Novo Tema-->
+    <color name="primary_color">#222222</color>
 
 <!--Botões-->
-    <color name="btt_bkg">#E0E0E0</color>
+    <color name="btt_bkg">#C7C7C7</color>
     <color name="btt_strokeColor">#2C2C2C</color>
     <color name="btt_textColor">#181818</color>
 
 <!--Outros-->
-    <color name="page_bkg">#FF3C3C3C</color>
+    <color name="page_bkg">#1C1C1C</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+<!--GlobalSnackBar-->
+    <color name="Snackbar_Error">#FF3636</color>
+    <color name="Snackbar_Sucess">#36FF36</color>
 </resources>

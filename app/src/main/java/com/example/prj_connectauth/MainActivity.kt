@@ -5,7 +5,6 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.example.prj_connectauth.databinding.ActivityLoginBinding
 
 import com.google.firebase.auth.FirebaseAuth
 import com.example.prj_connectauth.databinding.ActivityMainBinding
@@ -34,9 +33,15 @@ class MainActivity : AppCompatActivity() {
         val currentUser = auth.currentUser
 
         currentUser?.email?.let { email ->
-            binding.mainTvEmailShower.text = "Seu Email Cadastrado: ${email}"
+            binding.mainTvEmailShower.text = "Seu Email: ${email}"
         } ?: run {
             binding.mainTvEmailShower.text = "Nenhum Usuário Logado"
+        }
+
+        val email = currentUser?.email?.uppercase()
+
+        if (email == "ILLEE.SILVALB@GMAIL.COM" || email == "email2"){
+            //implementar depois
         }
 
     }

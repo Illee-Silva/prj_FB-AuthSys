@@ -1,14 +1,12 @@
 package com.example.prj_connectauth
 
 import android.content.Intent
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
+import android.content.res.Resources
 import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.graphics.toColorInt
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.prj_connectauth.databinding.ActivityDialogResetPasswordBinding
@@ -16,11 +14,13 @@ import com.example.prj_connectauth.databinding.ActivityDialogResetPasswordBindin
 import com.google.firebase.auth.FirebaseAuth
 import com.example.prj_connectauth.databinding.ActivityLoginBinding
 import com.example.prj_connectauth.utils.GlobalSnackbar.invokeSnackbar
-import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
-import androidx.core.graphics.drawable.toDrawable
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
+fun Int.dpToPx(): Int = (this * Resources.getSystem().displayMetrics.density).toInt()
 
 class LoginActivity : AppCompatActivity() {
 
@@ -45,19 +45,24 @@ class LoginActivity : AppCompatActivity() {
             val password = binding.loginEtxtPassword.text.toString().trim()
 
             if (email.isEmpty() || password.isEmpty()){
-                invokeSnackbar(binding.root, "Preencha Todos os Campos!")
+                invokeSnackbar(binding.root, "Preencha Todos os Campos!", anchor = binding.loginEtxtEmail)
                 return@setOnClickListener
             }
 
             auth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this){ task ->
                     if (task.isSuccessful){
-                        invokeSnackbar(binding.root, "Login Bem Sucedido!")
+                        invokeSnackbar(binding.root, "Login Bem Sucedido!", "G")
+
+                        lifecycleScope.launch {
+                            delay(1000)
+                        }
+
                         startActivity(Intent(this, MainActivity::class.java))
                         finish()
                     }
                     else{
-                        invokeSnackbar(binding.root, "Erro: ${task.exception?.message}")
+                        invokeSnackbar(binding.root, "Erro: ${task.exception?.message}", "R")
                     }
                 }
 
@@ -84,41 +89,70 @@ class LoginActivity : AppCompatActivity() {
 
         val dialogbinding = ActivityDialogResetPasswordBinding.inflate(LayoutInflater.from(this))
 
-        val dialog = AlertDialog.Builder(this)
+        val dialog = AlertDialog.Builder(this, R.style.MY_DialogStyle)
             .setView(dialogbinding.root)
-            .setNegativeButton ("Cancelar"){ dialog, _ -> dialog.dismiss() }
+            //.setNegativeButton ("Cancelar"){ dialog, _ -> dialog.dismiss() }
             .create()
 
+//        dialog.setOnShowListener {
+//            val window = dialog.window
+//
+//            val screenWidth = resources.displayMetrics.widthPixels
+//            val dialogWidth = (screenWidth * 0.90).toInt()
+//            val maxWidth = 600.dpToPx()
+//
+//            val finalWidth = if(screenWidth > maxWidth) maxWidth else dialogWidth
+//
+//            window?.setLayout(finalWidth, WindowManager.LayoutParams.WRAP_CONTENT)
+//
+//
+//
+//        }
 
         dialogbinding.drpBttEnviar.setOnClickListener {
 
             val email = dialogbinding.drpEtxtEmail.text.toString().trim()
 
             if (email.isNotEmpty()){
+                dialogbinding.drpTvError.text = ""
                 sendPasswordRecoverEmail(email)
                 dialog.dismiss()
             }
             else{
-                invokeSnackbar(dialogbinding.root, "Preencha o Email!")
+                dialogbinding.drpTvError.text = "Preencha o Email!"
             }
 
         }
 
+        dialogbinding.drpBttCancelar.setOnClickListener {
+
+            dialog.dismiss()
+
+        }
+
+//        dialogbinding.main.visibility = View.GONE
         dialog.show()
+
     }
 
     private fun sendPasswordRecoverEmail(email: String){
 
+        var cor: String
+        var message: String
+
         Firebase.auth.sendPasswordResetEmail(email)
             .addOnCompleteListener { task ->
-                val message = if (task.isSuccessful){
-                    "Email enviado para $email"
+
+                if (task.isSuccessful){
+                    message = "Email enviado para $email"
+                    cor = "G"
                 }
                 else{
-                    "Erro: ${task.exception?.message ?: "Falha desconhecida"}"
+                    message = "Erro: ${task.exception?.message}"
+                    cor = "R"
                 }
 
-                invokeSnackbar(binding.root, message)
+                invokeSnackbar(binding.root, message, cor)
 
             }
 

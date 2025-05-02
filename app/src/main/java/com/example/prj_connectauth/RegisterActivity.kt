@@ -8,14 +8,18 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.lifecycleScope
 
 import com.google.firebase.auth.FirebaseAuth
 import com.example.prj_connectauth.databinding.ActivityRegisterBinding
+import com.example.prj_connectauth.databinding.ActivityLoginBinding
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException
 import com.example.prj_connectauth.utils.GlobalSnackbar.invokeSnackbar
 import com.google.firebase.FirebaseNetworkException
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class RegisterActivity : AppCompatActivity() {
 
@@ -68,8 +72,12 @@ class RegisterActivity : AppCompatActivity() {
                     it.isEnabled = true
 
                     if(task.isSuccessful){
-                        invokeSnackbar(binding.root, "Registrto bem sucedido!")
-                        finish()
+                        invokeSnackbar(binding.root, "Registro bem sucedido!", "G")
+
+                        lifecycleScope.launch {
+                            delay(1500)
+                            finish()
+                        }
                     }
                     else {
                         handleSignUpError(task.exception)
@@ -93,27 +101,32 @@ class RegisterActivity : AppCompatActivity() {
         when (exception) {
             is FirebaseAuthUserCollisionException -> {
                 // E-mail já está cadastrado
-                invokeSnackbar(binding.root, "Este e-mail já está em uso!")
+                invokeSnackbar(binding.root, "Este e-mail já está em uso!", "R")
             }
             is FirebaseAuthWeakPasswordException -> {
                 // Senha fraca
-                invokeSnackbar(binding.root, "Senha muito fraca!")
+                invokeSnackbar(binding.root, "Senha muito fraca!",)
             }
             is FirebaseAuthInvalidCredentialsException -> {
                 // Formato de e-mail inválido
                 invokeSnackbar(binding.root, "E-mail inválido!")
             }
             is FirebaseNetworkException -> {
-                invokeSnackbar(binding.root, "Erro de conexão, Verifique a Internet!")
+                invokeSnackbar(binding.root, "Erro de conexão, Verifique a Internet!", "R")
             }
             else -> {
                 // Erro genérico (ex: rede)
                 Log.e("REGISTER_ERROR", "Classe da exceção: ${exception?.javaClass?.name}")
                 Log.e("REGISTER_ERROR", "Mensagem: ${exception?.message}")
 
-                invokeSnackbar(binding.root, "Erro: ${exception?.message}")
+                invokeSnackbar(binding.root, "Erro: ${exception?.message}", "R")
             }
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        FirebaseAuth.getInstance().signOut()
     }
 
 }

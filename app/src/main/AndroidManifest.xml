@@ -15,7 +15,8 @@
         android:theme="@style/Theme.Prj_connectAuth"
         tools:targetApi="31">
         <activity
-            android:name=".dialog_reset_password"
+            android:name=".DialogResetPassword"
+            android:windowSoftInputMode="adjustResize"
             android:exported="false" />
         <activity
             android:name=".MainActivity"

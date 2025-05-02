@@ -73,7 +73,7 @@
         android:layout_marginTop="12dp"
         android:clickable="true"
         android:paddingVertical="5dp"
-        android:text="Esqueci minha senha."
+        android:text="Esqueci minha senha"
         android:textColor="#00FFF2"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="@+id/login_etxt_password"
@@ -89,7 +89,9 @@
         android:paddingVertical="5dp"
         android:text="Não tem uma conta ?"
         android:textAlignment="center"
+
         app:layout_constraintBottom_toBottomOf="parent"
+
         app:layout_constraintEnd_toStartOf="@+id/login_btt_register"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintHorizontal_chainStyle="packed"
@@ -107,6 +109,7 @@
         android:text="Cadastre-se"
         android:textAlignment="center"
         android:textColor="#00FFF2"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/login_tv_footer_l" />

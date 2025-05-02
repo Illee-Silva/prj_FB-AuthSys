@@ -28,6 +28,7 @@
         android:layout_marginTop="152dp"
         android:fontFamily="@font/quantico"
         android:includeFontPadding="false"
+        android:maxWidth="350dp"
         android:text="Seu Email: "
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
